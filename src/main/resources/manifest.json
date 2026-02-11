@@ -1,0 +1,7 @@
+{
+  "Group": "com.clayrok",
+  "Name": "SocialMenu",
+  "Version": "1.0.1",
+  "Main": "com.clayrok.SocialMenu",
+  "IncludesAssetPack": true
+}

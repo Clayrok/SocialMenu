@@ -1,0 +1,10 @@
+{
+  "Group": "com.clayrok",
+  "Name": "SocialMenu",
+  "Version": "1.0.3-hotfix",
+  "Description": "Trade safely with other players.",
+  "Authors": [{"Name": "Clayrok"}],
+  "Main": "com.clayrok.SocialMenu.SocialMenu",
+  "LoadOrder": "POSTWORLD",
+  "IncludesAssetPack": true
+}

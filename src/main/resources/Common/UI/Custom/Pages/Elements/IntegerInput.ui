@@ -1,0 +1,19 @@
+$C = "../../Common.ui";
+
+
+Group {
+    LayoutMode: Top;
+    Anchor: (Width: 60);
+
+    Label #Label {
+        Text: "Integer input";
+        Style: (FontSize: 12, HorizontalAlignment: Center);
+    }
+
+    $C.@NumberField #Input {
+        Anchor: (Top: 5, Horizontal: 5, Height: 35);
+        FlexWeight: 1;
+        Style: (FontSize: 12, TextColor: #b2c5c6);
+        Format: (MaxDecimalPlaces: 0, Step: 1);
+    }
+}

@@ -1,0 +1,65 @@
+{
+  "OPEN_PERM": "clayrok.socialmenu.open",
+  "RELOAD_PERM": "clayrok.socialmenu.reload",
+  "CENTER_TITLES": true,
+  "OPEN_ON_USE": false,
+  "OPEN_ON_PICK": true,
+  "CLOSE_ON_ACTION": true,
+  "ActionGroups": [
+    {
+      "title": "Group 1 Title",
+      "permission": null,
+      "actions": [
+        { "displayName": "Action 1", "command": "tell {targetName} Action 1", "permission": null },
+        { "displayName": "Action 2", "command": "tell {targetName} Action 2", "permission": null },
+        { "displayName": "Action 3", "command": "tell {targetName} Action 3", "permission": null },
+        { "displayName": "Action 4", "command": "tell {targetName} Action 4", "permission": null },
+        { "displayName": "Action 5", "command": "tell {targetName} Action 5", "permission": null }
+      ]
+    },
+    {
+      "title": "Group 2 Title",
+      "permission": null,
+      "actions": [
+        { "displayName": "Action 6", "command": "tell {targetName} Action 6", "permission": null },
+        { "displayName": "Action 7", "command": "tell {targetName} Action 7", "permission": null },
+        { "displayName": "Action 8", "command": "tell {targetName} Action 8", "permission": null },
+        { "displayName": "Action 9", "command": "tell {targetName} Action 9", "permission": null },
+        { "displayName": "Action 10", "command": "tell {targetName} Action 10", "permission": null }
+      ]
+    },
+    {
+      "title": "Group 3 Title",
+      "permission": null,
+      "actions": [
+        { "displayName": "Action 11", "command": "tell {targetName} Action 11", "permission": null },
+        { "displayName": "Action 12", "command": "tell {targetName} Action 12", "permission": null },
+        { "displayName": "Action 13", "command": "tell {targetName} Action 13", "permission": null },
+        { "displayName": "Action 14", "command": "tell {targetName} Action 14", "permission": null },
+        { "displayName": "Action 15", "command": "tell {targetName} Action 15", "permission": null }
+      ]
+    },
+    {
+      "title": "Group 4 Title",
+      "permission": null,
+      "actions": [
+        { "displayName": "Action 16", "command": "tell {targetName} Action 16", "permission": null },
+        { "displayName": "Action 17", "command": "tell {targetName} Action 17", "permission": null },
+        { "displayName": "Action 18", "command": "tell {targetName} Action 18", "permission": null },
+        { "displayName": "Action 19", "command": "tell {targetName} Action 19", "permission": null },
+        { "displayName": "Action 20", "command": "tell {targetName} Action 20", "permission": null }
+      ]
+    },
+    {
+      "title": "Group 5 Title",
+      "permission": null,
+      "actions": [
+        { "displayName": "Action 21", "command": "tell {targetName} Action 21", "permission": null },
+        { "displayName": "Action 22", "command": "tell {targetName} Action 22", "permission": null },
+        { "displayName": "Action 23", "command": "tell {targetName} Action 23", "permission": null },
+        { "displayName": "Action 24", "command": "tell {targetName} Action 24", "permission": null },
+        { "displayName": "Action 25", "command": "tell {targetName} Action 25", "permission": null }
+      ]
+    }
+  ]
+}

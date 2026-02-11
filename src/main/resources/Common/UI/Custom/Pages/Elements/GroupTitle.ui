@@ -1,0 +1,7 @@
+Group {
+    Anchor: (Height: 20, Bottom: 5);
+    Label #Label {
+        Text: "Title";
+        Style: (RenderUppercase: true, LetterSpacing: 1, TextColor: #bac7cf, FontSize: 14);
+    }
+}

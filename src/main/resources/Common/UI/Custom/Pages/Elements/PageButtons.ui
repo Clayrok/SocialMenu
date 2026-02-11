@@ -1,0 +1,21 @@
+$C = "../../Common.ui";
+
+
+Group {
+    LayoutMode: Center;
+    Anchor: (Top: 25, Width: 110, Height: 40);
+
+    $C.@TextButton #PreviousPageBtn {
+        Anchor: (Width: 30, Height: 30, Right: 2);
+        Disabled: true;
+        Text: "<";
+        Style: @TertiaryTextButtonStyle;
+    }
+
+    $C.@TextButton #NextPageBtn {
+        Anchor: (Width: 30, Height: 30, Left: 2);
+        Disabled: false;
+        Text: ">";
+        Style: @TertiaryTextButtonStyle;
+    }
+}

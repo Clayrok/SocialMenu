@@ -1,0 +1,35 @@
+$C = "../Common.ui";
+
+
+Group {
+    Button #Overlay {
+        LayoutMode: Left;
+        FlexWeight: 1;
+
+        Group { FlexWeight: 1; }
+        Group #Content {
+            LayoutMode: Top;
+            Anchor: (Width: 250);
+
+            Group { FlexWeight: 1; }
+            $C.@Container {
+                Anchor: (Bottom: 10);
+
+                #Title {
+                    Label #PlayerName {
+                        Text: "Player Username";
+                        Style: (RenderBold: true, RenderUppercase: true, LetterSpacing: 1, TextColor: #bac7cf, FontSize: 16, HorizontalAlignment: Center, VerticalAlignment: Center);
+                    }
+                }
+
+                #Content {
+                    Button #ActionsContainer {
+                        LayoutMode: Top;
+                    }
+                }
+            }
+            Group { FlexWeight: 1; }
+        }
+        Group { Anchor: (Width: 300); }
+    }
+}

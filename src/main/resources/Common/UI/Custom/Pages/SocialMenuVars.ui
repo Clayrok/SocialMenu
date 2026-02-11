@@ -1,0 +1,28 @@
+$C = "../Common.ui";
+
+Group {
+    LayoutMode: Top;
+
+    Label #Title {
+        Text: "Title";
+        Style: (HorizontalAlignment: Center, VerticalAlignment: Center, RenderBold: true, RenderUppercase: true, LetterSpacing: 1, TextColor: #bac7cf, FontSize: 21);
+    }
+
+    Group {
+        LayoutMode: Left;
+        Anchor: (Top: 15, Bottom: 25);
+
+        Group #Spacer { FlexWeight: 1; }
+
+        Group #VarsContainer {
+            LayoutMode: Left;
+        }
+
+        Group #Spacer { FlexWeight: 1; }
+    }
+
+    $C.@TextButton #ValidateBtn {
+        Anchor: (Width: 200, Height: 30, Bottom: 10);
+        Text: "Validate";
+    }
+}
