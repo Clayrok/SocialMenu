@@ -1,9 +1,0 @@
-$C = "../../Common.ui";
-
-
-$C.@TextButton #ActionButton {
-    @Text = "Action";
-    Anchor: (Horizontal: 1, Height: 30, Bottom: 5);
-    Padding: (Horizontal: 10);
-    Style: @SecondaryTextButtonStyle;
-}

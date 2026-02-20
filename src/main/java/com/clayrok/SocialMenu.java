@@ -7,8 +7,12 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
 public class SocialMenu extends JavaPlugin
 {
+    public static final ScheduledExecutorService SHEDULER = Executors.newSingleThreadScheduledExecutor();
     private PacketFilter socialMenuInteractionWatcher = null;
 
     public SocialMenu(@NonNullDecl JavaPluginInit init)
@@ -28,5 +32,6 @@ public class SocialMenu extends JavaPlugin
     protected void shutdown()
     {
         PacketAdapters.deregisterInbound(socialMenuInteractionWatcher);
+        SHEDULER.shutdownNow();
     }
 }

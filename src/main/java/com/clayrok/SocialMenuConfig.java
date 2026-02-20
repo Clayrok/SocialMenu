@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hypixel.hytale.logger.HytaleLogger;
 
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -72,32 +73,43 @@ public class SocialMenuConfig
         }
     }
 
-    public String reload()
-    {
-        try
-        {
+    public String reload() {
+        try {
             if (!Files.exists(configPath)) return "Config file not found.";
 
-            String content = Files.readString(configPath);
+            String content = Files.readString(configPath, java.nio.charset.StandardCharsets.UTF_8);
+            content = content.replace('\u00A0', ' ')  // Non-breaking space
+                             .replace('\u2007', ' ')  // Figure space
+                             .replace('\u202F', ' ')  // Narrow non-breaking space
+                             .replace('\ufeff', ' ')  // Byte Order Mark (BOM)
+                             .trim();
+
             JsonObject json = JsonParser.parseString(content).getAsJsonObject();
 
-            openPerm = getStringOrNull(json, "OPEN_PERM");
-            reloadPerm = getString(json, "RELOAD_PERM", "clayrok.socialmenu.reload");
+            String newOpenPerm = getStringOrNull(json, "OPEN_PERM");
+            String newReloadPerm = getString(json, "RELOAD_PERM", "clayrok.socialmenu.reload");
+            boolean newCenterTitles = getBool(json, "CENTER_TITLES", true);
+            boolean newOpenOnUse = getBool(json, "OPEN_ON_USE", false);
+            boolean newOpenOnPick = getBool(json, "OPEN_ON_PICK", true);
+            boolean newCloseOnAction = getBool(json, "CLOSE_ON_ACTION", true);
 
-            centerTitles = getBool(json, "CENTER_TITLES", true);
-            openOnUse = getBool(json, "OPEN_ON_USE", false);
-            openOnPick = getBool(json, "OPEN_ON_PICK", true);
-            closeOnAction = getBool(json, "CLOSE_ON_ACTION", true);
+            List<ActionGroup> newGroups = parseActionGroups(json, "ActionGroups");
 
-            actionGroups.clear();
-            actionGroups.addAll(parseActionGroups(json, "ActionGroups"));
+            this.openPerm = newOpenPerm;
+            this.reloadPerm = newReloadPerm;
+            this.centerTitles = newCenterTitles;
+            this.openOnUse = newOpenOnUse;
+            this.openOnPick = newOpenOnPick;
+            this.closeOnAction = newCloseOnAction;
+
+            this.actionGroups.clear();
+            this.actionGroups.addAll(newGroups);
 
             return "Config reloaded.";
         }
-        catch (Exception e)
-        {
-            HytaleLogger.forEnclosingClass().atSevere().log("Error reloading config: " + e.getMessage());
-            return "An error occurred.";
+        catch (Exception e) {
+            HytaleLogger.forEnclosingClass().atSevere().withCause(e).log("Error reloading config");
+            return "An error occurred: " + e.getClass().getSimpleName();
         }
     }
 

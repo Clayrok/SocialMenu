@@ -1,5 +1,6 @@
 package com.clayrok.pages;
 
+import com.clayrok.SocialMenu;
 import com.clayrok.SocialMenuActionData;
 import com.clayrok.SocialMenuConfig;
 import com.google.gson.JsonObject;
@@ -18,9 +19,9 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,6 +33,8 @@ public class SocialMenuPage extends InteractiveCustomUIPage<SocialMenuActionData
     private final List<SocialMenuConfig.ActionGroup> actionGroups;
     private final List<SocialMenuConfig.Action> filteredActions;
     private int actionPageIndex = 0;
+
+    private static ScheduledFuture<?> pendingUpdate;
 
     public SocialMenuPage(@NonNullDecl PlayerRef playerRef, @NonNullDecl PlayerRef targetPlayerRef)
     {
@@ -65,6 +68,8 @@ public class SocialMenuPage extends InteractiveCustomUIPage<SocialMenuActionData
         int displayedCount = 0;
         int startIndex = actionPageIndex * MAX_ITEMS_PER_PAGE;
 
+        Map<String, String> buttonsToSet = new HashMap<>();
+
         for (int g = 0; g < actionGroups.size(); g++)
         {
             SocialMenuConfig.ActionGroup group = actionGroups.get(g);
@@ -73,7 +78,7 @@ public class SocialMenuPage extends InteractiveCustomUIPage<SocialMenuActionData
             for (int i = 0; i < group.actions().size(); i++)
             {
                 SocialMenuConfig.Action action = group.actions().get(i);
-                if (!hasPermission(action.permission())) continue;
+                if (action == null || !hasPermission(action.permission())) continue;
 
                 if (globalActionIndex >= startIndex && displayedCount < MAX_ITEMS_PER_PAGE)
                 {
@@ -95,13 +100,13 @@ public class SocialMenuPage extends InteractiveCustomUIPage<SocialMenuActionData
                     }
 
                     uiBuilder.appendInline("#ActionsContainer", "Group #Action%s {}".formatted(globalActionIndex));
-                    uiBuilder.append("#ActionsContainer #Action%s".formatted(globalActionIndex), "Pages/Elements/Button.ui");
-                    uiBuilder.set("#ActionsContainer #Action%s #ActionButton.Text".formatted(globalActionIndex), action.displayName());
+                    uiBuilder.append("#ActionsContainer #Action%s".formatted(globalActionIndex), "Pages/Elements/ActionButton.ui");
+                    buttonsToSet.put("#Action%s #ActionButton #ButtonText.Text".formatted(globalActionIndex), action.displayName());
 
                     eventBuilder.addEventBinding(
                             CustomUIEventBindingType.Activating,
-                            "#ActionsContainer #Action%s #ActionButton".formatted(globalActionIndex),
-                            EventData.of("ActionId", "ACTION").append("actionData", String.valueOf(globalActionIndex))
+                            "#Action%s #ActionButton".formatted(globalActionIndex),
+                            EventData.of("ActionId", "ACTION").append("ActionData", String.valueOf(globalActionIndex))
                     );
                     displayedCount++;
                 }
@@ -116,6 +121,22 @@ public class SocialMenuPage extends InteractiveCustomUIPage<SocialMenuActionData
                 "#Overlay",
                 EventData.of("ActionId", "CANCEL")
         );
+
+        updateActionButtonsText(buttonsToSet);
+    }
+
+    private void updateActionButtonsText(Map<String, String> buttonsToSet)
+    {
+        if (pendingUpdate != null && !pendingUpdate.isDone()) {
+            pendingUpdate.cancel(true);
+        }
+
+        pendingUpdate = SocialMenu.SHEDULER.schedule(() -> {
+            UICommandBuilder uiBuilderAsync = new UICommandBuilder();
+            buttonsToSet.forEach(uiBuilderAsync::set);
+            buttonsToSet.clear();
+            sendUpdate(uiBuilderAsync);
+        }, 1, TimeUnit.MILLISECONDS);
     }
 
     public void buildPageButtons(UICommandBuilder uiBuilder, UIEventBuilder eventBuilder)
@@ -154,7 +175,7 @@ public class SocialMenuPage extends InteractiveCustomUIPage<SocialMenuActionData
         String actionId = jsonObj.get("ActionId").getAsString();
         switch (actionId)
         {
-            case "ACTION" -> onAction(jsonObj.get("actionData").getAsInt());
+            case "ACTION" -> onAction(jsonObj.get("ActionData").getAsInt());
             case "VALIDATE" -> onValidate(jsonObj);
             case "CHANGE_PAGE" -> onPageChangeClicked(jsonObj.get("direction").getAsInt());
             case "CANCEL" -> onCancelClicked();
