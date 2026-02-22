@@ -84,28 +84,29 @@ public class SocialMenuPage extends InteractiveCustomUIPage<SocialMenuActionData
                 {
                     if (!groupHeaderAdded)
                     {
-                        if (displayedCount > 0) uiBuilder.appendInline("#ActionsContainer", "Group { Anchor: (Height: 20); }");
+                        if (displayedCount > 0) uiBuilder.appendInline("#SocialMenuContainer", "Group { Anchor: (Height: 20); }");
 
                         String groupTitle = group.title();
                         if (groupTitle != null)
                         {
-                            uiBuilder.appendInline("#ActionsContainer", "Group #Title%s {}".formatted(g));
-                            uiBuilder.append("#ActionsContainer #Title%s".formatted(g), "Pages/Elements/GroupTitle.ui");
-                            uiBuilder.set("#ActionsContainer #Title%s #Label.Text".formatted(g), groupTitle);
+                            uiBuilder.appendInline("#SocialMenuContainer", "Group #Title%s {}".formatted(g));
+                            uiBuilder.append("#SocialMenuContainer #Title%s".formatted(g), "Pages/Elements/SocialMenuGroupTitle.ui");
+                            uiBuilder.set("#SocialMenuContainer #Title%s #Label.Text".formatted(g), groupTitle);
 
                             if (SocialMenuConfig.get().getCenterTitles())
-                                uiBuilder.set("#ActionsContainer #Title%s #Label.Style.HorizontalAlignment".formatted(g), "Center");
+                                uiBuilder.set("#SocialMenuContainer #Title%s #Label.Style.HorizontalAlignment".formatted(g), "Center");
                         }
                         groupHeaderAdded = true;
                     }
 
-                    uiBuilder.appendInline("#ActionsContainer", "Group #Action%s {}".formatted(globalActionIndex));
-                    uiBuilder.append("#ActionsContainer #Action%s".formatted(globalActionIndex), "Pages/Elements/ActionButton.ui");
-                    buttonsToSet.put("#Action%s #ActionButton #ButtonText.Text".formatted(globalActionIndex), action.displayName());
+                    uiBuilder.appendInline("#SocialMenuContainer", "Group #Action%s {}".formatted(globalActionIndex));
+                    uiBuilder.append("#SocialMenuContainer #Action%s".formatted(globalActionIndex), "Pages/Elements/SocialMenuActionButton.ui");
+                    buttonsToSet.put("#SocialMenuContainer #Action%s #ActionButton #ButtonText.Text".formatted(globalActionIndex),
+                            action.displayName());
 
                     eventBuilder.addEventBinding(
                             CustomUIEventBindingType.Activating,
-                            "#Action%s #ActionButton".formatted(globalActionIndex),
+                            "#SocialMenuContainer #Action%s #ActionButton".formatted(globalActionIndex),
                             EventData.of("ActionId", "ACTION").append("ActionData", String.valueOf(globalActionIndex))
                     );
                     displayedCount++;
@@ -118,7 +119,7 @@ public class SocialMenuPage extends InteractiveCustomUIPage<SocialMenuActionData
 
         eventBuilder.addEventBinding(
                 CustomUIEventBindingType.Activating,
-                "#Overlay",
+                "#SocialMenuOverlay",
                 EventData.of("ActionId", "CANCEL")
         );
 
@@ -143,19 +144,19 @@ public class SocialMenuPage extends InteractiveCustomUIPage<SocialMenuActionData
     {
         if (filteredActions.size() > MAX_ITEMS_PER_PAGE)
         {
-            uiBuilder.append("#ActionsContainer", "Pages/Elements/PageButtons.ui");
-            uiBuilder.set("#ActionsContainer #PreviousPageBtn.Disabled", actionPageIndex == 0);
-            uiBuilder.set("#ActionsContainer #NextPageBtn.Disabled", (actionPageIndex + 1) * MAX_ITEMS_PER_PAGE >= filteredActions.size());
+            uiBuilder.append("#SocialMenuContainer", "Pages/Elements/SocialMenuPageButtons.ui");
+            uiBuilder.set("#SocialMenuContainer #PreviousPageBtn.Disabled", actionPageIndex == 0);
+            uiBuilder.set("#SocialMenuContainer #NextPageBtn.Disabled", (actionPageIndex + 1) * MAX_ITEMS_PER_PAGE >= filteredActions.size());
 
             eventBuilder.addEventBinding(
                     CustomUIEventBindingType.Activating,
-                    "#ActionsContainer #PreviousPageBtn",
+                    "#SocialMenuContainer #PreviousPageBtn",
                     EventData.of("ActionId", "CHANGE_PAGE").append("direction", "-1")
             );
 
             eventBuilder.addEventBinding(
                     CustomUIEventBindingType.Activating,
-                    "#ActionsContainer #NextPageBtn",
+                    "#SocialMenuContainer #NextPageBtn",
                     EventData.of("ActionId", "CHANGE_PAGE").append("direction", "1")
             );
         }
@@ -212,11 +213,11 @@ public class SocialMenuPage extends InteractiveCustomUIPage<SocialMenuActionData
         UICommandBuilder uiBuilder = new UICommandBuilder();
         UIEventBuilder eventBuilder = new UIEventBuilder();
 
-        uiBuilder.setNull("#Overlay #Content.Anchor");
+        uiBuilder.setNull("#SocialMenuOverlay #Content.Anchor");
 
-        uiBuilder.clear("#ActionsContainer");
-        uiBuilder.append("#ActionsContainer", "Pages/SocialMenuVars.ui");
-        uiBuilder.set("#ActionsContainer #Title.Text", actionName);
+        uiBuilder.clear("#SocialMenuContainer");
+        uiBuilder.append("#SocialMenuContainer", "Pages/SocialMenuVars.ui");
+        uiBuilder.set("#SocialMenuContainer #Title.Text", actionName);
 
         EventData eventData = EventData.of("ActionId", "VALIDATE");
         eventData.append("command", command);
@@ -233,11 +234,11 @@ public class SocialMenuPage extends InteractiveCustomUIPage<SocialMenuActionData
             switch (extractedVars.get(i).getValue())
             {
                 case "string" -> {
-                    uiBuilder.append(selector, "Pages/Elements/StringInput.ui");
+                    uiBuilder.append(selector, "Pages/Elements/SocialMenuStringInput.ui");
                     uiBuilder.set(selector + " #Input.PlaceholderText", "...");
                 }
-                case "integer" -> uiBuilder.append(selector, "Pages/Elements/IntegerInput.ui");
-                case "float" -> uiBuilder.append(selector, "Pages/Elements/FloatInput.ui");
+                case "integer" -> uiBuilder.append(selector, "Pages/Elements/SocialMenuIntegerInput.ui");
+                case "float" -> uiBuilder.append(selector, "Pages/Elements/SocialMenuFloatInput.ui");
             }
 
             uiBuilder.set(selector + " #Label.Text", inputTitle);

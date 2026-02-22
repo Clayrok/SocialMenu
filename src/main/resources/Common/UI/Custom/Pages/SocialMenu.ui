@@ -2,7 +2,7 @@ $C = "../Common.ui";
 
 
 Group {
-    Button #Overlay {
+    Button #SocialMenuOverlay {
         LayoutMode: Left;
         FlexWeight: 1;
 
@@ -23,7 +23,7 @@ Group {
                 }
 
                 #Content {
-                    Button #ActionsContainer {
+                    Button #SocialMenuContainer {
                         LayoutMode: Top;
                     }
                 }

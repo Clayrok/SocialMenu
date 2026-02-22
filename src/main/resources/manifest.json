@@ -1,7 +1,7 @@
 {
   "Group": "com.clayrok",
   "Name": "SocialMenu",
-  "Version": "1.0.2",
+  "Version": "1.0.2-hotfix",
   "ServerVersion":"2026.02.19-1a311a592",
   "Main": "com.clayrok.SocialMenu",
   "IncludesAssetPack": true
