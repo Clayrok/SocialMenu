@@ -1,8 +1,17 @@
 {
   "Group": "com.clayrok",
   "Name": "SocialMenu",
-  "Version": "1.0.2-hotfix",
-  "ServerVersion":"2026.02.19-1a311a592",
-  "Main": "com.clayrok.SocialMenu",
-  "IncludesAssetPack": true
+  "Version": "1.0.4",
+  "Description": "Opens a social menu when interacting (F/middle click) with other players.",
+  "Authors": [
+    {
+      "Name": "Clayrok"
+    }
+  ],
+  "ServerVersion": ">=0.5.1",
+  "LoadBefore": {},
+  "DisabledByDefault": false,
+  "IncludesAssetPack": true,
+  "SubPlugins": [],
+  "Main": "com.clayrok.SocialMenu"
 }

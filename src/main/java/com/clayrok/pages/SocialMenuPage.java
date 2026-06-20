@@ -197,7 +197,7 @@ public class SocialMenuPage extends InteractiveCustomUIPage<SocialMenuActionData
 
         if (command.contains("{"))
         {
-            askForCommandVars(action.displayName(), command);
+            askForCommandVars(action.displayName(), command, action.buttonText());
         }
         else
         {
@@ -208,7 +208,7 @@ public class SocialMenuPage extends InteractiveCustomUIPage<SocialMenuActionData
         }
     }
 
-    private void askForCommandVars(String actionName, String command)
+    private void askForCommandVars(String actionName, String command, String buttonText)
     {
         UICommandBuilder uiBuilder = new UICommandBuilder();
         UIEventBuilder eventBuilder = new UIEventBuilder();
@@ -218,6 +218,7 @@ public class SocialMenuPage extends InteractiveCustomUIPage<SocialMenuActionData
         uiBuilder.clear("#SocialMenuContainer");
         uiBuilder.append("#SocialMenuContainer", "Pages/SocialMenuVars.ui");
         uiBuilder.set("#SocialMenuContainer #Title.Text", actionName);
+        uiBuilder.set("#SocialMenuContainer #ValidateBtn.Text", buttonText);
 
         EventData eventData = EventData.of("ActionId", "VALIDATE");
         eventData.append("command", command);
@@ -233,6 +234,10 @@ public class SocialMenuPage extends InteractiveCustomUIPage<SocialMenuActionData
             String inputTitle = extractedVars.get(i).getKey().replace("_", " ");
             switch (extractedVars.get(i).getValue())
             {
+                case "long_string" -> {
+                    uiBuilder.append(selector, "Pages/Elements/SocialMenuLongStringInput.ui");
+                    uiBuilder.set(selector + " #Input.PlaceholderText", "...");
+                }
                 case "string" -> {
                     uiBuilder.append(selector, "Pages/Elements/SocialMenuStringInput.ui");
                     uiBuilder.set(selector + " #Input.PlaceholderText", "...");

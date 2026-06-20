@@ -3,7 +3,7 @@ $C = "../../Common.ui";
 
 Group {
     LayoutMode: Top;
-    Anchor: (Width: 120);
+    Anchor: (Width: 160);
 
     Label #Label {
         Text: "String input";

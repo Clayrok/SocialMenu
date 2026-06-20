@@ -15,7 +15,7 @@ public class SocialMenuConfig
     private static SocialMenuConfig instance;
     private final Path configPath;
 
-    public record Action(String displayName, String command, String permission) {}
+    public record Action(String displayName, String command, String permission, String buttonText) {}
     public record ActionGroup(String title, String permission, List<Action> actions) {}
     private final List<ActionGroup> actionGroups = new ArrayList<>();
 
@@ -139,7 +139,8 @@ public class SocialMenuConfig
                         String displayName = getString(item, "displayName", "");
                         String command = getString(item, "command", "");
                         String actionPermission = getStringOrNull(item, "permission");
-                        actions.add(new Action(displayName, command, actionPermission));
+                        String buttonText = getString(item, "buttonText", "Validate");
+                        actions.add(new Action(displayName, command, actionPermission, buttonText));
                     }
                 }
 

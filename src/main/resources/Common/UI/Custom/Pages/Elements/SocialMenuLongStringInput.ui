@@ -1,0 +1,18 @@
+$C = "../../Common.ui";
+
+
+Group {
+    LayoutMode: Top;
+    Anchor: (Width: 240, Height: 60);
+
+    Label #Label {
+        Text: "String input";
+        Style: (FontSize: 12, HorizontalAlignment: Center);
+    }
+
+    MultilineTextField #Input {
+        Anchor: (Top: 5, Height: 60);
+        FlexWeight: 1;
+        Style: (FontSize: 12, TextColor: #b2c5c6);
+    }
+}
